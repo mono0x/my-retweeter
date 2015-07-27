@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/joho/godotenv"
 	"log"
@@ -35,7 +34,6 @@ loop:
 	for {
 		select {
 		case item := <-stream.C:
-			fmt.Println(reflect.TypeOf(item))
 			switch status := item.(type) {
 			case anaconda.Tweet:
 				if !status.Retweeted && status.User.Id == targetUserId {
