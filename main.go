@@ -30,7 +30,6 @@ func main() {
 		log.Fatal("Error parsing TARGET_USER_ID")
 	}
 
-loop:
 	for {
 		select {
 		case item := <-stream.C:
@@ -41,8 +40,6 @@ loop:
 				}
 			default:
 			}
-		case <-stream.Quit:
-			break loop
 		}
 	}
 }
