@@ -11,10 +11,7 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	_ = godotenv.Load()
 
 	anaconda.SetConsumerKey(os.Getenv("TWITTER_CONSUMER_KEY"))
 	anaconda.SetConsumerSecret(os.Getenv("TWITTER_CONSUMER_SECRET"))
