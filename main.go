@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/ChimeraCoder/anaconda"
-	"github.com/joho/godotenv"
 	"log"
 	"net/url"
 	"os"
 	"strconv"
+
+	"github.com/ChimeraCoder/anaconda"
+	"github.com/joho/godotenv"
 )
 
 func main() {
