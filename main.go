@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/joho/godotenv"
@@ -21,9 +22,13 @@ func main() {
 	v := url.Values{}
 	stream := api.UserStream(v)
 
-	targetUserId, err := strconv.ParseInt(os.Getenv("TARGET_USER_ID"), 10, 64)
-	if err != nil {
-		log.Fatal("Error parsing TARGET_USER_ID")
+	userIds := make(map[int64]struct{})
+	for _, part := range strings.Split(os.Getenv("TARGET_USER_IDS"), " ") {
+		id, err := strconv.ParseInt(part, 10, 64)
+		if err != nil {
+			log.Fatal("Error parsing TARGET_USER_IDS")
+		}
+		userIds[id] = struct{}{}
 	}
 
 	for {
@@ -31,8 +36,10 @@ func main() {
 		case item := <-stream.C:
 			switch status := item.(type) {
 			case anaconda.Tweet:
-				if !status.Retweeted && status.User.Id == targetUserId {
-					_, _ = api.Retweet(status.Id, false)
+				if !status.Retweeted {
+					if _, ok := userIds[status.User.Id]; ok {
+						_, _ = api.Retweet(status.Id, false)
+					}
 				}
 			default:
 			}
