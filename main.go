@@ -12,6 +12,8 @@ import (
 )
 
 func main() {
+	log.SetFlags(log.Lshortfile)
+
 	_ = godotenv.Load()
 
 	anaconda.SetConsumerKey(os.Getenv("TWITTER_CONSUMER_KEY"))
