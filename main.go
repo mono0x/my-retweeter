@@ -28,7 +28,7 @@ func main() {
 	for _, part := range strings.Split(os.Getenv("TARGET_USER_IDS"), " ") {
 		id, err := strconv.ParseInt(part, 10, 64)
 		if err != nil {
-			log.Fatal("Error parsing TARGET_USER_IDS")
+			log.Fatal("Error parsing TARGET_USER_IDS", err)
 		}
 		userIds[id] = struct{}{}
 	}
