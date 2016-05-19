@@ -1,0 +1,4 @@
+package: github.com/mono0x/my-retweeter
+import:
+- package: github.com/ChimeraCoder/anaconda
+- package: github.com/joho/godotenv
