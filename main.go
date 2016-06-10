@@ -38,10 +38,14 @@ func main() {
 		case item := <-stream.C:
 			switch status := item.(type) {
 			case anaconda.Tweet:
-				if !status.Retweeted {
-					if _, ok := userIds[status.User.Id]; ok {
-						_, _ = api.Retweet(status.Id, false)
-					}
+				if status.Retweeted {
+					break
+				}
+				if _, ok := userIds[status.User.Id]; !ok {
+					break
+				}
+				if _, err := api.Retweet(status.Id, false); err != nil {
+					log.Println(err)
 				}
 			default:
 			}
