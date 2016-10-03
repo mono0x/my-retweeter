@@ -33,22 +33,19 @@ func main() {
 		userIds[id] = struct{}{}
 	}
 
-	for {
-		select {
-		case item := <-stream.C:
-			switch status := item.(type) {
-			case anaconda.Tweet:
-				if status.Retweeted {
-					break
-				}
-				if _, ok := userIds[status.User.Id]; !ok {
-					break
-				}
-				if _, err := api.Retweet(status.Id, false); err != nil {
-					log.Println(err)
-				}
-			default:
+	for item := range stream.C {
+		switch status := item.(type) {
+		case anaconda.Tweet:
+			if status.Retweeted {
+				break
 			}
+			if _, ok := userIds[status.User.Id]; !ok {
+				break
+			}
+			if _, err := api.Retweet(status.Id, false); err != nil {
+				log.Println(err)
+			}
+		default:
 		}
 	}
 }
