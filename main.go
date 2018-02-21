@@ -42,6 +42,9 @@ func main() {
 			if _, ok := userIds[status.User.Id]; !ok {
 				break
 			}
+			if status.InReplyToUserID != 0 && status.InReplyToUserID != status.User.Id {
+				break
+			}
 			if _, err := api.Retweet(status.Id, false); err != nil {
 				log.Println(err)
 			}
