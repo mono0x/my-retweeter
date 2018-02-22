@@ -49,7 +49,6 @@ func main() {
 			if _, err := api.Retweet(status.Id, false); err != nil {
 				log.Println(err)
 			}
-			break
 		}
 	}
 }
