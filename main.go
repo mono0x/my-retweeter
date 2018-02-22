@@ -20,6 +20,7 @@ func main() {
 	anaconda.SetConsumerSecret(os.Getenv("TWITTER_CONSUMER_SECRET"))
 
 	api := anaconda.NewTwitterApi(os.Getenv("TWITTER_OAUTH_TOKEN"), os.Getenv("TWITTER_OAUTH_TOKEN_SECRET"))
+	defer api.Close()
 
 	v := url.Values{}
 	stream := api.UserStream(v)
