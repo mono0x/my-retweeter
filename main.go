@@ -25,13 +25,13 @@ func main() {
 	v := url.Values{}
 	stream := api.UserStream(v)
 
-	userIds := make(map[int64]struct{})
+	userIDs := make(map[int64]struct{})
 	for _, part := range strings.Split(os.Getenv("TARGET_USER_IDS"), " ") {
 		id, err := strconv.ParseInt(part, 10, 64)
 		if err != nil {
 			log.Fatal("Error parsing TARGET_USER_IDS", err)
 		}
-		userIds[id] = struct{}{}
+		userIDs[id] = struct{}{}
 	}
 
 	for item := range stream.C {
@@ -40,7 +40,7 @@ func main() {
 			if status.Retweeted {
 				break
 			}
-			if _, ok := userIds[status.User.Id]; !ok {
+			if _, ok := userIDs[status.User.Id]; !ok {
 				break
 			}
 			if status.InReplyToUserID != 0 && status.InReplyToUserID != status.User.Id {
