@@ -11,9 +11,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func main() {
-	log.SetFlags(log.Lshortfile)
-
+func run() error {
 	_ = godotenv.Load()
 
 	anaconda.SetConsumerKey(os.Getenv("TWITTER_CONSUMER_KEY"))
@@ -29,7 +27,7 @@ func main() {
 	for _, part := range strings.Split(os.Getenv("TARGET_USER_IDS"), " ") {
 		id, err := strconv.ParseInt(part, 10, 64)
 		if err != nil {
-			log.Fatal("Error parsing TARGET_USER_IDS", err)
+			return err
 		}
 		userIDs[id] = struct{}{}
 	}
@@ -50,5 +48,14 @@ func main() {
 				log.Println(err)
 			}
 		}
+	}
+	return nil
+}
+
+func main() {
+	log.SetFlags(log.Lshortfile)
+
+	if err := run(); err != nil {
+		log.Fatal(err)
 	}
 }
