@@ -4,8 +4,8 @@
 [[projects]]
   name = "github.com/ChimeraCoder/anaconda"
   packages = ["."]
-  revision = "0cb3e4c3ff8c6df5c73d5058c64e9c4eb6299c4b"
-  version = "v1.0.0"
+  revision = "9c68684170b980d5b4c2ed08fae9b530e659904d"
+  version = "v2.0.0"
 
 [[projects]]
   branch = "master"
