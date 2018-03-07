@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/joho/godotenv"
@@ -21,33 +22,52 @@ func run() error {
 		os.Getenv("TWITTER_CONSUMER_SECRET"))
 	defer api.Close()
 
-	v := url.Values{}
-	stream := api.UserStream(v)
-
-	userIDs := make(map[int64]struct{})
-	for _, part := range strings.Split(os.Getenv("TARGET_USER_IDS"), " ") {
+	userIDStrs := strings.Split(os.Getenv("TARGET_USER_IDS"), " ")
+	userIDs := make([]int64, 0, len(userIDStrs))
+	for _, part := range userIDStrs {
 		id, err := strconv.ParseInt(part, 10, 64)
 		if err != nil {
 			return err
 		}
-		userIDs[id] = struct{}{}
+		userIDs = append(userIDs, id)
 	}
 
-	for item := range stream.C {
-		switch status := item.(type) {
-		case anaconda.Tweet:
-			if status.Retweeted {
-				break
+	sinceIDs := make(map[int64]int64, len(userIDs))
+
+	interval := time.Duration(float64(15*time.Minute) / (180.0 / float64(len(userIDs))))
+	if interval < 1*time.Minute {
+		interval = 1 * time.Minute
+	}
+	t := time.NewTicker(interval)
+	defer t.Stop()
+
+	for _ = range t.C {
+		for _, userID := range userIDs {
+			var v url.Values
+			v.Set("count", "200")
+			v.Set("exclude_replies", "true")
+			sinceID, ok := sinceIDs[userID]
+			if ok && sinceID > 0 {
+				v.Set("since_id", strconv.FormatInt(sinceID, 10))
 			}
-			if _, ok := userIDs[status.User.Id]; !ok {
-				break
-			}
-			if status.InReplyToUserID != 0 && status.InReplyToUserID != status.User.Id {
-				break
-			}
-			if _, err := api.Retweet(status.Id, false); err != nil {
+			timeline, err := api.GetUserTimeline(v)
+			if err != nil {
 				log.Println(err)
+				continue
 			}
+
+			for _, status := range timeline {
+				if status.Id > sinceID {
+					sinceID = status.Id
+				}
+				if status.Retweeted {
+					continue
+				}
+				if _, err := api.Retweet(status.Id, false); err != nil {
+					log.Println(err)
+				}
+			}
+			sinceIDs[userID] = sinceID
 		}
 	}
 	return nil
