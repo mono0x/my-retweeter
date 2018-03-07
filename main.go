@@ -24,15 +24,15 @@ func run() error {
 
 	userIDStrs := strings.Split(os.Getenv("TARGET_USER_IDS"), " ")
 	userIDs := make([]int64, 0, len(userIDStrs))
+	sinceIDs := make(map[int64]int64, len(userIDStrs))
 	for _, part := range userIDStrs {
 		id, err := strconv.ParseInt(part, 10, 64)
 		if err != nil {
 			return err
 		}
 		userIDs = append(userIDs, id)
+		sinceIDs[id] = 0
 	}
-
-	sinceIDs := make(map[int64]int64, len(userIDs))
 
 	interval := time.Duration(float64(15*time.Minute) / (180.0 / float64(len(userIDs))))
 	if interval < 1*time.Minute {
@@ -46,8 +46,8 @@ func run() error {
 			var v url.Values
 			v.Set("count", "200")
 			v.Set("exclude_replies", "true")
-			sinceID, ok := sinceIDs[userID]
-			if ok && sinceID > 0 {
+			sinceID := sinceIDs[userID]
+			if sinceID > 0 {
 				v.Set("since_id", strconv.FormatInt(sinceID, 10))
 			}
 			timeline, err := api.GetUserTimeline(v)
