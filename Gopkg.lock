@@ -2,56 +2,75 @@
 
 
 [[projects]]
+  digest = "1:2ee1ec060a2e71d2eb24755cb3f3867c52faa9895d2287d3c3bf09b01020cf32"
   name = "github.com/ChimeraCoder/anaconda"
   packages = ["."]
+  pruneopts = "UT"
   revision = "9c68684170b980d5b4c2ed08fae9b530e659904d"
   version = "v2.0.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:088fd1efa8fcd4f85c3e3c0d135f28114115517a2b215f2e39b67146d032ea33"
   name = "github.com/ChimeraCoder/tokenbucket"
   packages = ["."]
+  pruneopts = "UT"
   revision = "c5a927568de7aad8a58127d80bcd36ca4e71e454"
 
 [[projects]]
   branch = "master"
+  digest = "1:863cb3d06b96794fd14a54579116b7e704cd8bc395e9d0404a5ad236d3e198b4"
   name = "github.com/azr/backoff"
   packages = ["."]
+  pruneopts = "UT"
   revision = "53511d3c733003985b0b76f733df1f4d0095ee6a"
 
 [[projects]]
   branch = "master"
+  digest = "1:efe7dc6d12119a36c1a617b574e99ac9c5ca8fbff57eb283a60462552b7c782a"
   name = "github.com/dustin/go-jsonpointer"
   packages = ["."]
+  pruneopts = "UT"
   revision = "ba0abeacc3dcca5b9b20f31509c46794edbc9965"
 
 [[projects]]
   branch = "master"
+  digest = "1:07263fbfa1c038e890b410f730279aa7adc217180f1c2f78c6dc80b3bbe9e819"
   name = "github.com/dustin/gojson"
   packages = ["."]
+  pruneopts = "UT"
   revision = "2e71ec9dd5adce3b168cd0dbde03b5cc04951c30"
 
 [[projects]]
   branch = "master"
+  digest = "1:b5cfd8d62c46082a75974f2f5e167c272f7f7d47c7a21caf49b17a45a558a601"
   name = "github.com/garyburd/go-oauth"
   packages = ["oauth"]
-  revision = "4cff9ef7b7003713efa191899dbaab8fa75e3e73"
+  pruneopts = "UT"
+  revision = "bca2e7f09a178fd36b034107a00e2323bca6a82e"
 
 [[projects]]
+  digest = "1:ecd9aa82687cf31d1585d4ac61d0ba180e42e8a6182b85bd785fcca8dfeefc1b"
   name = "github.com/joho/godotenv"
   packages = ["."]
-  revision = "a79fa1e548e2c689c241d10173efd51e5d689d5b"
-  version = "v1.2.0"
+  pruneopts = "UT"
+  revision = "23d116af351c84513e1946b527c88823e476be13"
+  version = "v1.3.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:76ee51c3f468493aff39dbacc401e8831fbb765104cbf613b89bef01cf4bad70"
   name = "golang.org/x/net"
   packages = ["context"]
-  revision = "cbe0f9307d0156177f9dd5dc85da1a31abc5f2fb"
+  pruneopts = "UT"
+  revision = "e147a9138326bc0e9d4e179541ffd8af41cff8a9"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "b0680953c42d64687e9e84790222353ff952f64531cba44bfa0da0bacf75af6f"
+  input-imports = [
+    "github.com/ChimeraCoder/anaconda",
+    "github.com/joho/godotenv",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
